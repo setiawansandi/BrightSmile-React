@@ -6,6 +6,31 @@ body {
   place-items: center;
 }
 
+.auth-bar-container {
+  background-color: #ffffff;
+  height: 130px;
+  display: flex;
+  align-items: center;
+}
+.auth-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.auth-bar .logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: bold;
+  font-size: var(--size-2);
+  font-family: "Libre Baskerville", serif;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
 /* Form Styles */
 .form-wrapper {
   display: flex;
