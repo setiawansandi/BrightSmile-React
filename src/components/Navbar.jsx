@@ -1,10 +1,10 @@
 // src/components/Navbar.jsx
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/icons/logo.svg';
-import dropdownArrow from '../assets/icons/dropdown-arrow-black.svg';
-import defaultAvatar from '../assets/images/none.png';
-import './Navbar.css';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/icons/logo.svg";
+import dropdownArrow from "../assets/icons/dropdown-arrow-black.svg";
+import defaultAvatar from "../assets/images/none.png";
+import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
+    const savedUser = localStorage.getItem("user");
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
@@ -23,21 +23,21 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       // Remove user session info
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       setUser(null);
       setMenuOpen(false);
 
       // Navigate to homepage
-      navigate('/');
+      navigate("/");
     } catch (err) {
-      console.error('Logout failed:', err);
+      console.error("Logout failed:", err);
     }
   };
 
   const displayName = user
-    ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Account'
-    : 'Account';
+    ? `${user.firstName || ""} ${user.lastName || ""}`.trim() || "Account"
+    : "Account";
   const avatarUrl = user?.avatarUrl || defaultAvatar;
 
   return (
@@ -65,34 +65,23 @@ const Navbar = () => {
             Login
           </Link>
         ) : (
-          // Logged IN → show avatar + dropdown
           <div className="user-menu">
-            <button
-              className="user-profile-trigger"
-              aria-haspopup="menu"
-              aria-expanded={menuOpen}
-              onClick={toggleMenu}
-            >
+            <button className="user-profile-trigger">
               <img src={avatarUrl} alt="" className="profile-pic" />
               <span className="user-name">{displayName}</span>
               <img src={dropdownArrow} alt="" className="dropdown-arrow-icon" />
             </button>
 
-            {menuOpen && (
-              <div className="user-dropdown" role="menu" aria-label="User menu">
-                <Link to="/dashboard" role="menuitem">
-                  Dashboard
-                </Link>
-                <button
-                  type="button"
-                  className="logout-link"
-                  onClick={handleLogout}
-                  role="menuitem"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
+            <div className="user-dropdown">
+              <Link to="/dashboard">Dashboard</Link>
+              <button
+                type="button"
+                className="logout-link"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
           </div>
         )}
       </div>
