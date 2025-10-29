@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PasswordInput from './PasswordInput';
-import { login } from '../../features/auth/authService.js';
+import { login } from './authService';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -11,47 +11,40 @@ const LoginForm = () => {
   const [errors, setErrors] = useState({ email: '', password: '', api: '' });
 
   const validateEmail = () => {
-    if (email === '') {
-      setErrors(prev => ({ ...prev, email: '' }));
-    } else if (!emailRegex.test(email)) {
+    if (email !== '' && !emailRegex.test(email)) {
       setErrors(prev => ({ ...prev, email: 'Email is invalid' }));
+      return false;
     } else {
       setErrors(prev => ({ ...prev, email: '' }));
+      return true;
     }
   };
 
+  // --- Form Submission ---
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     setErrors({ email: '', password: '', api: '' });
 
-    validateEmail();
-    if (errors.email) return;
+    const isEmailValid = validateEmail();
+    if (!isEmailValid) {
+      console.log('Client-side email validation failed');
+      return;
+    }
 
-    console.log('Submitting login with:', { email, password });
-
-    /*
-    // --- THIS IS WHERE YOU'LL CALL YOUR API ---
     try {
-      // The authService.js function will make the API call
       const userData = await login(email, password);
-      
-      // On success, you'll typically save the user/token
-      // and redirect, e.g., using React Router
       console.log('Login successful:', userData);
-      // window.location.href = '/dashboard'; // or router.push('/dashboard')
+      
+      window.location.href = '/'; 
       
     } catch (error) {
-      // This is where you'd handle "wrongpassword" or "nouser"
-      // from your API response.
       console.error('Login failed:', error);
-      setErrors(prev => ({ ...prev, api: error.message || 'Login failed. Please try again.' }));
+      setErrors(prev => ({ ...prev, api: error.message }));
     }
-    */
   };
 
   return (
-    <form id="login-form" method="POST" action="auth.php" onSubmit={handleSubmit}>
+    <form id="login-form" onSubmit={handleSubmit}>
       
       {errors.api && <span className="error-message api-error">{errors.api}</span>}
 

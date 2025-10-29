@@ -69,39 +69,46 @@ const RegisterForm = ({ onSignupSuccess }) => {
     });
   }, [password]);
 
+  // --- Validation Functions ---
   const validateNames = () => {
     const isFirstInvalid = firstName !== '' && !nameRegex.test(firstName);
     const isLastInvalid = lastName !== '' && !nameRegex.test(lastName);
     if (isFirstInvalid || isLastInvalid) {
       setErrors(prev => ({ ...prev, name: 'Must consist of letters only' }));
+      return false;
     } else {
       setErrors(prev => ({ ...prev, name: '' }));
+      return true;
     }
   };
 
   const validateEmail = () => {
-    if (email === '') {
-      setErrors(prev => ({ ...prev, email: '' }));
-    } else if (!emailRegex.test(email)) {
+    if (email !== '' && !emailRegex.test(email)) {
       setErrors(prev => ({ ...prev, email: 'Email is invalid' }));
+      return false;
     } else {
       setErrors(prev => ({ ...prev, email: '' }));
+      return true;
     }
   };
 
   const validatePhone = () => {
     if (phone && !isValidPhoneNumber(phone)) {
       setErrors(prev => ({ ...prev, phone: 'Please enter a valid phone number.' }));
+      return false;
     } else {
       setErrors(prev => ({ ...prev, phone: '' }));
+      return true;
     }
   };
 
   const validateConfirmPassword = () => {
-    if (confirmPassword && password !== confirmPassword) {
+    if (confirmPassword === '' || password !== confirmPassword) {
       setErrors(prev => ({ ...prev, confirm: 'Passwords do not match.' }));
+      return false;
     } else {
       setErrors(prev => ({ ...prev, confirm: '' }));
+      return true;
     }
   };
 
@@ -118,11 +125,12 @@ const RegisterForm = ({ onSignupSuccess }) => {
   // --- Form Submission ---
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors(prev => ({ ...prev, api: '' }));
 
-    validateNames();
-    validateEmail();
-    validatePhone();
-    validateConfirmPassword();
+    const isNameValid = validateNames();
+    const isEmailValid = validateEmail();
+    const isPhoneValid = validatePhone();
+    const isConfirmValid = validateConfirmPassword();
 
     const allReqsMet = Object.values(passwordReqs).every(Boolean);
     if (!allReqsMet) {
@@ -131,36 +139,36 @@ const RegisterForm = ({ onSignupSuccess }) => {
       setErrors(prev => ({ ...prev, password: '' }));
     }
 
-    if (errors.name || errors.email || errors.phone || errors.confirm || !allReqsMet) {
+    if (!isNameValid || !isEmailValid || !isPhoneValid || !isConfirmValid || !allReqsMet) {
       console.log('Client-side validation failed');
+      
+      if (!isConfirmValid) {
+        setPassword('');
+        setConfirmPassword('');
+      }
+
       return;
     }
 
     const formData = { firstName, lastName, dob, phone, email, password };
     console.log('Submitting registration with:', formData);
 
-    /*
-    // --- THIS IS WHERE YOU'LL CALL YOUR API ---
     try {
       const newUserData = await register(formData);
       console.log('Signup successful:', newUserData);
       
-      // Call the prop function to switch to the login form
-      // and show the success message
       onSignupSuccess(); 
       
     } catch (error) {
-      // This is where you'd handle "emailtaken" etc.
       console.error('Signup failed:', error);
       setErrors(prev => ({ ...prev, api: error.message || 'Signup failed. Please try again.' }));
     }
-    */
   };
 
   console.log("RegisterForm rendering with initialCountry:", initialCountry);
 
   return (
-    <form id="signup-form" method="POST" action="auth.php" onSubmit={handleSubmit}>
+    <form id="signup-form" onSubmit={handleSubmit}>
 
       {errors.api && <span className="error-message api-error">{errors.api}</span>}
 
@@ -188,7 +196,7 @@ const RegisterForm = ({ onSignupSuccess }) => {
             name="last_name"
             required
             value={lastName}
-            onChange={(e) => setLastName(e.gexft.value)}
+            onChange={(e) => setLastName(e.target.value)}
             onBlur={validateNames}
           />
         </div>
@@ -228,7 +236,12 @@ const RegisterForm = ({ onSignupSuccess }) => {
         )}
 
         {!initialCountry && (
-          <input type="text" placeholder="Loading..." />
+          <input 
+            type="text" 
+            placeholder="Loading phone input..." 
+            disabled 
+            style={{ backgroundColor: '#f9f9f9', cursor: 'wait' }}
+          />
         )}
         <span className="error-message" id="signup-phone-error">
           {errors.phone}
@@ -248,7 +261,7 @@ const RegisterForm = ({ onSignupSuccess }) => {
         />
         <span className="error-message" id="signup-email-error">
           {errors.email}
-          !</span>
+        </span>
       </div>
 
       <PasswordInput
@@ -298,4 +311,3 @@ const RegisterForm = ({ onSignupSuccess }) => {
 };
 
 export default RegisterForm;
-
