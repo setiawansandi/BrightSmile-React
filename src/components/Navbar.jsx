@@ -11,7 +11,6 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // ✅ Example: automatically check if logged in (simulate session)
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
@@ -24,7 +23,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       // Remove user session info
-      localStorage.removeItem('authToken');
+      localStorage.removeItem('token');
       localStorage.removeItem('user');
       setUser(null);
       setMenuOpen(false);
@@ -36,7 +35,9 @@ const Navbar = () => {
     }
   };
 
-  const displayName = user?.fullName || 'Account';
+  const displayName = user
+    ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Account'
+    : 'Account';
   const avatarUrl = user?.avatarUrl || defaultAvatar;
 
   return (
