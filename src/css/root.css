@@ -1,0 +1,299 @@
+:root {
+  --size--2: 0.75rem; /* 12px  */
+  --size--1: 0.875rem; /* 14px  */
+  --size-0: 1rem; /* 16px  */
+  --size-1: 1.25rem; /* 20px  */
+  --size-2: 1.563rem; /* 25px  */
+  --size-3: 1.953rem; /* 31px  */
+  --size-4: 2.441rem; /* 39px  */
+  --size-5: 3.052rem; /* ~49px  */
+  --size-6: 3.814rem; /* ~61px  */
+  --size-7: 4.768rem; /* ~76px  */
+  --size-8: 5.959rem; /* ~95px  */
+  --size-9: 7.449rem; /* ~119px */
+  --color-primary: #5686e5;
+  --color-primary-hover: #3460b8;
+  --color-background: #f7f3ed;
+  --color-text: #222222;
+  --color-light-grey: #e3e3e3;
+  --color-dark-grey: #b1b1b1;
+  --color-status-red: #E6494C;
+  --color-status-green: #38BF8E;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  color: var(--color-text);
+}
+
+.btn-base {
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--size-0);
+  font-family: "Figtree", sans-serif;
+  font-weight: bold;
+  min-width: 100px;
+  height: 50px;
+}
+
+.btn-base:hover {
+  background: var(--color-primary-hover); /* new hover color */
+}
+
+.btn-base:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 96, 184, 0.35);
+}
+
+.general {
+  max-width: 1344px;
+  margin: 0 auto;
+  /* user-select: none; */
+}
+
+/* Navbar */
+.navbar-container {
+  background-color: #ffffff;
+  height: 130px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: bold;
+  font-size: var(--size-2);
+  font-family: "Libre Baskerville", serif;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.navbar nav a {
+  margin: 0 12px;
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+  padding: 1rem;
+  font-family: "Figtree", sans-serif;
+}
+
+.navbar nav a:hover {
+  color: #5686e5;
+}
+/* This is the main container for the profile element */
+.user-profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 11px; /* Space between pic, name, and icon */
+    text-decoration: none;
+    font-family: "Figtree", sans-serif;
+    cursor: pointer;
+}
+/* This styles the circular profile picture */
+.user-profile-trigger .profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover; /* Prevents image from stretching */
+    border: 2px solid var(--color-primary);
+}
+/* This styles the user's name */
+.user-profile-trigger .user-name {
+    font-weight: bold;
+    font-size: var(--size-0);
+    font-family: "Figtree", serif;
+}
+
+/* This styles the dropdown arrow icon */
+.user-profile-trigger .dropdown-arrow-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-login {
+  width: 100px;
+  font-size: var(--size-0);
+}
+
+/* --- User menu dropdown (icon-free) --- */
+.user-menu {
+  position: relative;
+}
+
+.user-menu::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 10px;   /* same as the gap you used earlier */
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--color-light-grey);
+  border-radius: 12px;
+  min-width: 180px;
+  padding: 6px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  display: none;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+/* Reveal on hover or keyboard focus */
+.user-menu:hover .user-dropdown,
+.user-menu:focus-within .user-dropdown {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Menu items (just text) */
+.user-dropdown a,
+.user-dropdown button.logout-link {
+  width: 100%;
+  display: block;
+  text-align: left;
+  padding: 10px 12px;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-size: var(--size-0);
+  font-family: "Figtree", sans-serif;
+  color: var(--color-text);
+  border-radius: 8px;
+}
+
+/* Hover/focus */
+.user-dropdown a:hover,
+.user-dropdown a:focus,
+.user-dropdown button.logout-link:hover,
+.user-dropdown button.logout-link:focus {
+  color: var(--color-primary);
+  outline: none;
+}
+
+/* Optional divider */
+.user-dropdown a + form {
+  border-top: 1px solid var(--color-light-grey);
+  margin-top: 6px;
+  padding-top: 6px;
+}
+
+/* Make the trigger obviously clickable */
+.user-profile-trigger {
+  user-select: none;
+  text-decoration: none;
+}
+
+/* (Nice-to-have) rotate the caret when menu is open */
+.user-menu:hover .dropdown-arrow-icon,
+.user-menu:focus-within .dropdown-arrow-icon {
+  transform: rotate(180deg);
+  transition: transform .15s ease;
+}
+/* END - Navbar */
+
+/* Footer section */
+.footer {
+  background: white;
+  border-top: 1px solid #222;
+  padding: 60px 0 30px 0;
+}
+
+.footer-content {
+  max-width: 1344px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footer-left {
+  max-width: 580px;
+  font-size: 1rem;
+  font-family: "Figtree", sans-serif;
+}
+
+.footer-left .copyright {
+  margin-top: 72px;
+  font-size: var(--size--2);
+}
+
+.footer-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 1rem;
+}
+
+.brand-name {
+  font-size: var(--size-2);
+  font-family: "Libre Baskerville", serif;
+  font-weight: bold;
+}
+
+.links-title {
+  font-size: var(--size-1);
+  font-family: "Libre Baskerville", serif;
+  font-weight: bold;
+}
+
+.footer-logo {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.footer-right {
+  margin-right: 120px;
+}
+
+.footer-right ul {
+  list-style: none;
+  padding: 0;
+  font-size: var(--size-0);
+  font-family: "Figtree", sans-serif;
+}
+
+.footer-right li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-right a {
+  text-decoration: none;
+  color: #222;
+}
+
+.footer-right a:hover {
+  color: #5686e5;
+}
+
+.highlight {
+  color: var(--color-primary)
+}
