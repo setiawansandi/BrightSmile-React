@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import LoginForm from "../features/auth/LoginForm";
 import RegisterForm from "../features/auth/RegisterForm";
 import logo from '../assets/icons/logo.svg';
-import "../css/authPage.css";
+import "../css/AuthPage.css";
+import Navbar from "../components/Navbar";
 
 const AuthPage = () => {
   const [activeForm, setActiveForm] = useState("login");
