@@ -1,5 +1,5 @@
 // src/components/Navbar.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/icons/logo.svg';
 import dropdownArrow from '../assets/icons/dropdown-arrow-black.svg';
@@ -8,26 +8,28 @@ import './Navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
-
-  // Example user — replace with your auth logic (context or API)
-  const [user, setUser] = useState({
-    fullName: 'Unknown',
-    avatarUrl: ''
-  });
-
+  const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // ✅ Example: automatically check if logged in (simulate session)
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   const handleLogout = async () => {
     try {
-      // Example: if you store a token in localStorage
+      // Remove user session info
       localStorage.removeItem('authToken');
-
-      // Clear local user state
+      localStorage.removeItem('user');
       setUser(null);
+      setMenuOpen(false);
 
-      // Navigate back to home
+      // Navigate to homepage
       navigate('/');
     } catch (err) {
       console.error('Logout failed:', err);
@@ -57,10 +59,12 @@ const Navbar = () => {
 
         {/* Auth section */}
         {!user ? (
-          // Logged out
-          <Link to="/auth" className="btn-base btn-login">Login</Link>
+          // Logged OUT → only show "Login" button
+          <Link to="/auth" className="btn-base btn-login">
+            Login
+          </Link>
         ) : (
-          // Logged in
+          // Logged IN → show avatar + dropdown
           <div className="user-menu">
             <button
               className="user-profile-trigger"
@@ -75,7 +79,9 @@ const Navbar = () => {
 
             {menuOpen && (
               <div className="user-dropdown" role="menu" aria-label="User menu">
-                <Link to="/dashboard" role="menuitem">Dashboard</Link>
+                <Link to="/dashboard" role="menuitem">
+                  Dashboard
+                </Link>
                 <button
                   type="button"
                   className="logout-link"
