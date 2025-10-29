@@ -3,7 +3,6 @@ import LoginForm from "../features/auth/LoginForm";
 import RegisterForm from "../features/auth/RegisterForm";
 import logo from '../assets/icons/logo.svg';
 import "../css/AuthPage.css";
-import Navbar from "../components/Navbar";
 
 const AuthPage = () => {
   const [activeForm, setActiveForm] = useState("login");

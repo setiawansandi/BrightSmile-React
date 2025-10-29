@@ -2,7 +2,6 @@
 body {
   display: flex;
   flex-direction: column;
-  height: 1150px;
   place-items: center;
 }
 
