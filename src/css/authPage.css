@@ -177,6 +177,18 @@ body {
   display: block;
 }
 
+.error-message.api-error {
+  display: block;
+  background-color: #fde8e8;
+  color: #a94442;
+  border: 1px solid #e9c3c3;
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-bottom: 22px;
+  font-family: 'Figtree', sans-serif;
+  font-size: var(--size--1);
+}
+
 /* Utility class */
 .hidden {
   display: none;
