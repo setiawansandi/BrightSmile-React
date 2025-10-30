@@ -26,6 +26,12 @@ const LoginForm = () => {
     setErrors({ email: '', password: '', api: '' });
 
     const isEmailValid = validateEmail();
+
+    if (email === '') {
+      setErrors(prev => ({...prev, email: 'Email is required.'}));
+      return; 
+    }
+
     if (!isEmailValid) {
       console.log('Client-side email validation failed');
       return;
