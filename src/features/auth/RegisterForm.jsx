@@ -157,7 +157,7 @@ const RegisterForm = ({ onSignupSuccess }) => {
       const newUserData = await register(formData);
       console.log('Signup successful:', newUserData);
       
-      onSignupSuccess(); 
+      window.location.href = '/'; 
       
     } catch (error) {
       console.error('Signup failed:', error);
