@@ -17,8 +17,6 @@ import doc3 from "../assets/images/doc3.png";
 const HomePage = () => {
   return (
     <>
-      <Navbar />
-
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={`general ${styles["hero-page"]}`}>
@@ -32,7 +30,7 @@ const HomePage = () => {
             </p>
 
             <div className={styles.actions}>
-              <Link to="/appointment" className="btn-base btn-primary">
+              <Link to="/appointment" className={`btn-base ${styles["btn-primary"]}`}>
                 Book Now
               </Link>
 
@@ -170,8 +168,6 @@ const HomePage = () => {
           />
         </div>
       </section>
-
-      <Footer />
     </>
   );
 };

@@ -1,17 +1,24 @@
-import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import AuthPage from './pages/AuthPage';
-import HomePage from './pages/HomePage'; 
+// App.jsx
+import { Routes, Route } from "react-router-dom";
+import Layout from "./Layout";             // includes Navbar
+import HomePage from "./pages/HomePage";
+import AuthPage from "./pages/AuthPage";
+import DoctorPage from "./pages/DoctorPage";
 
-function App() {
+export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage/>} />
-      
-      <Route path="/auth" element={<AuthPage />} />
+      {/* No navbar on auth */}
+      <Route path="/auth/*" element={<AuthPage />} />
 
+      {/* Everything else uses the navbar */}
+      <Route element={<Layout />}>
+        <Route index element={<HomePage />} />
+        {/* <Route path="appointment" element={<AppointmentPage />} /> */}
+        <Route path="doctors" element={<DoctorPage />} />
+        {/* <Route path="services" element={<ServicesPage />} /> */}
+        {/* <Route path="about" element={<AboutPage />} /> */}
+      </Route>
     </Routes>
   );
 }
-
-export default App;
