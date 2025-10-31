@@ -8,7 +8,7 @@ export default function Doctors() {
 
   // Modal state
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(null);
+  const [active, setActive] = useState(null); // { id, name, specialty, description, image }
 
   useEffect(() => {
     let alive = true;
@@ -17,7 +17,8 @@ export default function Doctors() {
       setError("");
       try {
         const res = await fetch("http://localhost:3000/api/doctor");
-        if (!res.ok) throw new Error((await res.text()) || `HTTP ${res.status}`);
+        if (!res.ok)
+          throw new Error((await res.text()) || `HTTP ${res.status}`);
         const json = await res.json();
         if (!json?.data || !Array.isArray(json.data)) {
           throw new Error("Unexpected response format.");
@@ -49,12 +50,12 @@ export default function Doctors() {
       <div className={styles["hero"]}>
         <h1>Meet Our Expert Team</h1>
         <p>
-          Our highly skilled dental professionals are committed to providing<br />
+          Our highly skilled dental professionals are committed to providing
+          <br />
           exceptional care with the latest techniques.
         </p>
       </div>
 
-      {/* Loading / Error */}
       {loading && <p style={{ textAlign: "center" }}>Loading…</p>}
       {!loading && error && (
         <p style={{ textAlign: "center", color: "crimson" }}>{error}</p>
@@ -66,26 +67,19 @@ export default function Doctors() {
             <p>No doctors found.</p>
           ) : (
             doctors.map((d) => {
-              const id = d.user_id ?? d.id ?? d.userId ?? d.doctorId;
-              const first = d.first_name ?? d.firstName ?? d.given_name ?? "";
-              const last = d.last_name ?? d.lastName ?? d.family_name ?? "";
-              const rawName =
-                first || last ? `${first} ${last}`.trim() : d.name ?? "";
-              const name = rawName ? `Dr ${rawName}` : "Dr";
-              const specialty =
-                d.specialization ?? d.speciality ?? d.specialty ?? "General";
-              const description = d.bio ?? d.description ?? "";
-              const image =
-                d.avatar_url ??
-                d.avatarUrl ??
-                d.image ??
-                "assets/images/default-doctor.png";
+              // Use API fields directly
+              const id = d.doctor_id; // unique, fixes duplicate key warning
+              const baseName = d.doctor_name ?? "";
+              const name = baseName ? `Dr ${baseName}` : "Dr";
+              const specialty = d.specialization ?? "General";
+              const description = d.bio ?? "";
+              const image = d.avatar_url ?? "assets/images/default-doctor.png";
 
               const docObj = { id, name, specialty, description, image };
 
               return (
                 <article
-                  key={id ?? `${name}-${specialty}`}
+                  key={id ?? `${name}-${specialty}`} // id should exist; fallback is just a guard
                   className={styles["card"]}
                   data-name={name}
                   data-specialty={specialty}
@@ -103,12 +97,8 @@ export default function Doctors() {
                       Info
                     </button>
                     <a
-                      className={styles["btn-book"]}
-                      href={
-                        id
-                          ? `appointment.php?doctor=${encodeURIComponent(id)}`
-                          : "appointment.php"
-                      }
+                      className={`btn-base ${styles["btn-book"]}`}
+                      href={`appointment.php?doctor=${encodeURIComponent(id)}`}
                     >
                       Book
                     </a>
@@ -156,12 +146,10 @@ export default function Doctors() {
                   {active.description}
                 </p>
                 <a
-                  className={styles["btn-book"]}
-                  href={
+                  className={`btn-base ${styles["btn-bookmodal"]}`}
+                  href={`appointment.php?doctor=${encodeURIComponent(
                     active.id
-                      ? `appointment.php?doctor=${encodeURIComponent(active.id)}`
-                      : "appointment.php"
-                  }
+                  )}`}
                 >
                   Book
                 </a>
