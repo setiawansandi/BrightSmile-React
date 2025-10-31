@@ -1,6 +1,5 @@
-// Doctors.jsx
 import { useEffect, useState } from "react";
-import styles from "../css/DoctorPage.module.css"; // CSS Modules (use bracket syntax)
+import styles from "../css/DoctorPage.module.css";
 
 export default function Doctors() {
   const [doctors, setDoctors] = useState([]);
@@ -9,7 +8,7 @@ export default function Doctors() {
 
   // Modal state
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(null); // { id, name, specialty, description, image }
+  const [active, setActive] = useState(null);
 
   useEffect(() => {
     let alive = true;
@@ -33,7 +32,7 @@ export default function Doctors() {
     return () => {
       alive = false;
     };
-  }, []); // no token/apiBase deps
+  }, []);
 
   const handleInfo = (doc) => {
     setActive(doc);
@@ -47,7 +46,6 @@ export default function Doctors() {
 
   return (
     <section>
-      {/* Hero — EXACT TEXT */}
       <div className={styles["hero"]}>
         <h1>Meet Our Expert Team</h1>
         <p>
@@ -62,14 +60,12 @@ export default function Doctors() {
         <p style={{ textAlign: "center", color: "crimson" }}>{error}</p>
       )}
 
-      {/* Grid */}
       {!loading && !error && (
         <div className={styles["team"]}>
           {doctors.length === 0 ? (
             <p>No doctors found.</p>
           ) : (
             doctors.map((d) => {
-              // Mirror PHP naming & fallbacks
               const id = d.user_id ?? d.id ?? d.userId ?? d.doctorId;
               const first = d.first_name ?? d.firstName ?? d.given_name ?? "";
               const last = d.last_name ?? d.lastName ?? d.family_name ?? "";
@@ -124,7 +120,6 @@ export default function Doctors() {
         </div>
       )}
 
-      {/* Modal — EXACT TITLE & layout */}
       {open && active && (
         <div
           className={styles["modal"]}

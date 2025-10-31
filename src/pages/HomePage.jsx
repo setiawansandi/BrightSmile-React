@@ -1,11 +1,9 @@
-// src/pages/HomePage.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import styles from "../css/HomePage.module.css";
 
-// Images & icons
 import logo from "../assets/icons/logo.svg";
 import benefitIcon from "../assets/icons/benefit.svg";
 import boostIcon from "../assets/icons/boost.svg";
