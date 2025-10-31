@@ -1,6 +1,7 @@
 import axios from 'axios'; 
 
-const API_URL = 'http://localhost:3000/api/auth';
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = `${API_BASE}/api/auth`;
 
 // --- Register Logic ---
 export const register = async (userData) => {

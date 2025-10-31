@@ -1,50 +1,43 @@
-// src/components/Navbar.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/icons/logo.svg";
 import dropdownArrow from "../assets/icons/dropdown-arrow-black.svg";
 import defaultAvatar from "../assets/images/none.png";
-import "./Navbar.css";
+import { logout } from "../features/auth/authService";
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // (true if you want click-to-toggle)
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
+    if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
-  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const toggleMenu = () => setMenuOpen((prev) => !prev); // not used with :hover dropdown
 
   const handleLogout = async () => {
     try {
-      // Remove user session info
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      logout();
       setUser(null);
       setMenuOpen(false);
-
-      // Navigate to homepage
       navigate("/");
     } catch (err) {
       console.error("Logout failed:", err);
     }
   };
 
-  const displayName = user
-    ? `${user.firstName || ""} ${user.lastName || ""}`.trim() || "Account"
-    : "Account";
+  const displayName =
+    user ? `${user.firstName || ""} ${user.lastName || ""}`.trim() || "Account" : "Account";
   const avatarUrl = user?.avatarUrl || defaultAvatar;
 
   return (
-    <header className="navbar-container">
-      <div className="general navbar">
+    <header className={styles["navbar-container"]}>
+      <div className={`general ${styles["navbar"]}`}>
         {/* Logo */}
-        <Link to="/" className="logo" aria-label="BrightSmile home">
+        <Link to="/" className={styles["logo"]} aria-label="BrightSmile home">
           <img src={logo} alt="Logo" />
           <span>BrightSmile</span>
         </Link>
@@ -60,23 +53,22 @@ const Navbar = () => {
 
         {/* Auth section */}
         {!user ? (
-          // Logged OUT → only show "Login" button
-          <Link to="/auth" className="btn-base btn-login">
+          <Link to="/auth" className={`btn-base ${styles["btn-login"]}`}>
             Login
           </Link>
         ) : (
-          <div className="user-menu">
-            <button className="user-profile-trigger">
-              <img src={avatarUrl} alt="" className="profile-pic" />
-              <span className="user-name">{displayName}</span>
-              <img src={dropdownArrow} alt="" className="dropdown-arrow-icon" />
+          <div className={styles["user-menu"]}>
+            <button className={styles["user-profile-trigger"]}>
+              <img src={avatarUrl} alt="" className={styles["profile-pic"]} />
+              <span className={styles["user-name"]}>{displayName}</span>
+              <img src={dropdownArrow} alt="" className={styles["dropdown-arrow-icon"]} />
             </button>
 
-            <div className="user-dropdown">
+            <div className={styles["user-dropdown"]}>
               <Link to="/dashboard">Dashboard</Link>
               <button
                 type="button"
-                className="logout-link"
+                className={styles["logout-link"]}
                 onClick={handleLogout}
               >
                 Logout

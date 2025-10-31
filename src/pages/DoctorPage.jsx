@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "../css/DoctorPage.module.css";
+import { getDoctor } from "../features/doctor/doctorService";
 
 export default function Doctors() {
   const [doctors, setDoctors] = useState([]);
@@ -11,28 +12,14 @@ export default function Doctors() {
   const [active, setActive] = useState(null); // { id, name, specialty, description, image }
 
   useEffect(() => {
-    let alive = true;
     (async () => {
-      setLoading(true);
-      setError("");
       try {
-        const res = await fetch("http://localhost:3000/api/doctor");
-        if (!res.ok)
-          throw new Error((await res.text()) || `HTTP ${res.status}`);
-        const json = await res.json();
-        if (!json?.data || !Array.isArray(json.data)) {
-          throw new Error("Unexpected response format.");
-        }
-        if (alive) setDoctors(json.data);
-      } catch (e) {
-        if (alive) setError(e.message || "Failed to fetch doctors.");
-      } finally {
-        if (alive) setLoading(false);
+        const data = await getDoctor();
+        setDoctors(data);
+      } catch (err) {
+        console.error(err.message);
       }
     })();
-    return () => {
-      alive = false;
-    };
   }, []);
 
   const handleInfo = (doc) => {
