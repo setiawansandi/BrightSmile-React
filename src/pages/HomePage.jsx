@@ -8,9 +8,6 @@ import logo from "../assets/icons/logo.svg";
 import benefitIcon from "../assets/icons/benefit.svg";
 import boostIcon from "../assets/icons/boost.svg";
 import heroImg from "../assets/images/hero-img.png";
-import doc1 from "../assets/images/doc1.png";
-import doc2 from "../assets/images/doc2.png";
-import doc3 from "../assets/images/doc3.png";
 
 const HomePage = () => {
   return (
@@ -33,9 +30,9 @@ const HomePage = () => {
               </Link>
 
               <div className={styles.dentists}>
-                <img src={doc1} alt="Dentist 1" />
-                <img src={doc2} alt="Dentist 2" />
-                <img src={doc3} alt="Dentist 3" />
+                <img src="/assets/images/doc1.png" alt="Dentist 1" />
+                <img src="/assets/images/doc2.png" alt="Dentist 2" />
+                <img src="/assets/images/doc3.png" alt="Dentist 3" />
                 <span className={styles["text-secondary"]}>
                   <span className={styles["text-primary"]}>10+</span> Pro
                   Dentists
