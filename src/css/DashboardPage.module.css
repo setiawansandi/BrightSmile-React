@@ -196,7 +196,7 @@
 
 .actions form {
   display: inline-block;
-  margin-left: 0; /* Removed margin */
+  margin-left: 0;
 }
 
 /* Responsive */
