@@ -4,6 +4,7 @@ import Layout from "./Layout";             // includes Navbar
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import DoctorPage from "./pages/DoctorPage";
+import AboutPage from "./pages/AboutPage";
 
 export default function App() {
   return (
@@ -17,7 +18,7 @@ export default function App() {
         {/* <Route path="appointment" element={<AppointmentPage />} /> */}
         <Route path="doctors" element={<DoctorPage />} />
         {/* <Route path="services" element={<ServicesPage />} /> */}
-        {/* <Route path="about" element={<AboutPage />} /> */}
+        <Route path="about" element={<AboutPage />} />
       </Route>
     </Routes>
   );
